@@ -1,6 +1,4 @@
-import br.com.dio.desafio.dominio.Conteudo;
-import br.com.dio.desafio.dominio.Curso;
-import br.com.dio.desafio.dominio.Mentoria;
+import br.com.dio.desafio.dominio.*;
 
 import java.time.LocalDate;
 
@@ -24,8 +22,29 @@ public class Main {
         //Exemplo de polimorfismo
         Conteudo conteudo = new Curso();
 
-        System.out.println(curso1);
-        System.out.println(curso2);
-        System.out.println(mentoria1);
+        Bootcamp bootcamp1 = new Bootcamp();
+        bootcamp1.setNome("Bootcamp Java POO");
+        bootcamp1.setDescricao("Bootcamp sobre Programação Orientada a Objetos em Java");
+        bootcamp1.getConteudosBootcamps().add(curso1);
+        bootcamp1.getConteudosBootcamps().add(curso2);
+        bootcamp1.getConteudosBootcamps().add(mentoria1);
+
+        Dev dev1 = new Dev();
+        dev1.setNome("Gabriela");
+        dev1.inscreverBootcamp(bootcamp1);
+        System.out.println("Conteúdos Inscritos: " + dev1.getConteudosInscritos());
+        dev1.progredir();
+        dev1.progredir();
+        System.out.println("Conteúdos Concluídos: " + dev1.getConteudosConcluidos());
+        System.out.println("XP: " + dev1.calcularTotalXp());
+
+        Dev dev2 = new Dev();
+        dev2.setNome("João");
+        dev2.inscreverBootcamp(bootcamp1);
+        System.out.println("Conteúdos Inscritos: " + dev2.getConteudosInscritos());
+        dev2.progredir();
+        System.out.println("Conteúdos Concluídos: " + dev2.getConteudosConcluidos());
+        System.out.println("XP: " + dev2.calcularTotalXp());
+
     }
 }
