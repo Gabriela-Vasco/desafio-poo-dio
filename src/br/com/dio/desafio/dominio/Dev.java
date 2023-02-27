@@ -2,6 +2,7 @@ package br.com.dio.desafio.dominio;
 
 import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 public class Dev {
@@ -49,10 +50,27 @@ public class Dev {
         return Objects.hash(nome, conteudosInscritos, conteudosConcluidos);
     }
 
-    public void inscreverBootcamp(Bootcamp bootcamp){}
+    public void inscreverBootcamp(Bootcamp bootcamp){
+        //Ao se inscrever no conteúdo, os conteúdos do bootcamp são adicionados ao Set
+        this.conteudosInscritos.addAll(bootcamp.getConteudosBootcamps());
+        //Adiciona o Dev ao bootcamp relacionado ao conteúdo inscrito
+        bootcamp.getDevsInscritos().add(this);
+    }
 
-    public void progredir(){}
+    public void progredir(){
+        //Usa-se o Optional, pois é possível que não exista o conteúdo
+        Optional<Conteudo> conteudo = this.conteudosInscritos.stream().findFirst();
+        //Adiciona o conteúdo aos Concluídos e o remove dos Inscritos
+        if(conteudo.isPresent()) {
+            this.conteudosConcluidos.add(conteudo.get());
+            this.conteudosInscritos.remove(conteudo.get());
+        } else {
+            System.err.println("Você não está matriculado em nenhum conteúdo");
+        }
+    }
 
-    public void calcularTotalXp(){}
+    public double calcularTotalXp(){
+        return this.conteudosConcluidos.stream().mapToDouble(Conteudo::calcularXp).sum();
+    }
 
 }
